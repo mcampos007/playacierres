@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Turno;
+//use App\Models\Turno;
+use App\Models\Turno;
 
 class HomeController extends Controller {
     /**

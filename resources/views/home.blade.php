@@ -72,13 +72,15 @@
                             </div>
                             @if (session('notification'))
                                 <div class="alert alert-success custom-alert" role="alert">
+
                                     <strong>{{ session('notification') }}</strong>
                                     <strong>{{ session('success') }}</strong>
                                 </div>
                             @endif
                         @else
-                            @if (isset($notification))
+                            @if (isset($notification) && is_string($notification))
                                 <div class="alert alert-danger custom-alert text-center" role="alert">
+
                                     <strong>{{ $notification }}</strong>
                                 </div>
                             @endif
