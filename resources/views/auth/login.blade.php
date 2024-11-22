@@ -2,22 +2,24 @@
 
 @section('body-class', 'signup-page')
 @section('styles')
-    .footer {
-    background-color: #343a40;
-    color: #ffffff;
-    }
-    .footer a {
-    color: #ffffff;
-    text-decoration: none;
-    }
-    .footer a:hover {
-    color: #f8d7da;
-    text-decoration: underline;
-    }
-    .footer .laravel-version {
-    font-size: 0.85rem;
-    margin-top: 5px;
-    }
+    <script>
+        .footer {
+            background - color: #343a40;
+                color: # ffffff;
+        }
+        .footer a {
+            color: #ffffff;
+            text - decoration: none;
+        }
+        .footer a: hover {
+                color: #f8d7da;
+                text - decoration: underline;
+            }
+            .footer.laravel - version {
+                font - size: 0.85 rem;
+                margin - top: 5 px;
+            }
+    </script>
 @endsection
 
 @section('content')
@@ -26,23 +28,33 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+
                     <div class="card card-signup">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form class="form" method="POST" action="{{ route('login') }}">
                             {{ csrf_field() }}
                             <div class="header header-primary text-center">
                                 <h4>Inicio de Sesión</h4>
                                 <div class="social-line">
                                     <!--
-                                                                <a href="#" class="btn btn-simple btn-just-icon">
-                                                                    <i class="fa fa-facebook-square"></i>
-                                                                </a>
-                                                                <a href="#" class="btn btn-simple btn-just-icon">
-                                                                    <i class="fa fa-twitter"></i>
-                                                                </a>
-                                                                <a href="#" class="btn btn-simple btn-just-icon">
-                                                                    <i class="fa fa-google-plus"></i>
-                                                                </a>
-                                                            -->
+                                                                            <a href="#" class="btn btn-simple btn-just-icon">
+                                                                                <i class="fa fa-facebook-square"></i>
+                                                                            </a>
+                                                                            <a href="#" class="btn btn-simple btn-just-icon">
+                                                                                <i class="fa fa-twitter"></i>
+                                                                            </a>
+                                                                            <a href="#" class="btn btn-simple btn-just-icon">
+                                                                                <i class="fa fa-google-plus"></i>
+                                                                            </a>
+                                                                        -->
                                 </div>
                             </div>
                             <p class="text-divider">Ingresa tus datos</p>
