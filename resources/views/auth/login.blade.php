@@ -5,7 +5,7 @@
     <script>
         .footer {
             background - color: #343a40;
-                color: # ffffff;
+                                        color: # ffffff;
         }
         .footer a {
             color: #ffffff;
@@ -30,6 +30,11 @@
                 <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
 
                     <div class="card card-signup">
+                        @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                            </div>
+                        @endif
                         @if ($errors->any())
                             <div class="alert alert-danger">
                                 <ul>
@@ -45,16 +50,16 @@
                                 <h4>Inicio de Sesión</h4>
                                 <div class="social-line">
                                     <!--
-                                                                            <a href="#" class="btn btn-simple btn-just-icon">
-                                                                                <i class="fa fa-facebook-square"></i>
-                                                                            </a>
-                                                                            <a href="#" class="btn btn-simple btn-just-icon">
-                                                                                <i class="fa fa-twitter"></i>
-                                                                            </a>
-                                                                            <a href="#" class="btn btn-simple btn-just-icon">
-                                                                                <i class="fa fa-google-plus"></i>
-                                                                            </a>
-                                                                        -->
+                                                                                                    <a href="#" class="btn btn-simple btn-just-icon">
+                                                                                                        <i class="fa fa-facebook-square"></i>
+                                                                                                    </a>
+                                                                                                    <a href="#" class="btn btn-simple btn-just-icon">
+                                                                                                        <i class="fa fa-twitter"></i>
+                                                                                                    </a>
+                                                                                                    <a href="#" class="btn btn-simple btn-just-icon">
+                                                                                                        <i class="fa fa-google-plus"></i>
+                                                                                                    </a>
+                                                                                                -->
                                 </div>
                             </div>
                             <p class="text-divider">Ingresa tus datos</p>
@@ -90,7 +95,9 @@
                                     Olvidaste tu clave?
                                 </a>
                             </div>
+
                         </form>
+
                     </div>
                 </div>
             </div>
