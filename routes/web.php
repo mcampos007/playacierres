@@ -23,6 +23,9 @@ use App\Http\Controllers\Admin\TanqueController;
 
 Route::get('/', [WelcomeController::class, 'index']);
 Route::get('/precios',[WelcomeController::class,'precios']);
+Route::get('/quienessomos', [WelcomeController::class, 'quienessomos'])->name('quienessomos');
+Route::get('/licencias', [WelcomeController::class, 'licencias'])->name('licencias');
+
 
 Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');

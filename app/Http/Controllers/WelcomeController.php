@@ -16,7 +16,17 @@ class WelcomeController extends Controller {
         return view( 'welcome' );
     }
 
-    /*Precios*/
+    public function quienessomos() {
+        //
+        return view( 'quienessomos' );
+    }
+
+    public function licencias() {
+        //
+        return view( 'licencias' );
+    }
+
+    /*licencias*/
 
     public function precios() {
         $products = Product::all();

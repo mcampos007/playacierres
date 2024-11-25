@@ -10,12 +10,12 @@
                         </a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="http://presentation.infocam.com.ar" class="text-light">
+                        <a href="{{ route('quienessomos') }}" class="text-light">
                             <i class="fa fa-info-circle"></i> Quienes Somos
                         </a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="http://infocam.com.ar/license" class="text-light">
+                        <a href="{{ route('licencias') }}" class="text-light">
                             <i class="fa fa-file-alt"></i> Licenses
                         </a>
                     </li>
