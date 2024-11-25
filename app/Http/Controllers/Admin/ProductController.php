@@ -47,7 +47,7 @@ class ProductController extends Controller {
         //Validación
         $rules = [
             'name' => 'required|min:5|max:45',
-            'price' => 'required'
+            'price' => 'required|numeric|min:0'
         ];
         $messages = [
             'name.required' => 'Debe Ingresar un nombre para el producto',
@@ -114,6 +114,19 @@ class ProductController extends Controller {
 
     public function update( Request $request, $id ) {
         //
+        //Validación
+        $rules = [
+            'name' => 'required|min:5|max:45',
+            'price' => 'required|numeric|min:0'
+        ];
+        $messages = [
+            'name.required' => 'Debe Ingresar un nombre para el producto',
+            'name.min' => 'El nombre del producto debe tener al menos cinco caracteres.',
+            'name.max' => 'El nombre del producto NO debe tener mas de 45 caracteres.',
+            'price.required' => 'El producto debe tener un precio.'
+
+        ];
+        $this->validate( $request, $rules, $messages );
 
         $product = Product::findOrFail( $id );
 
@@ -136,20 +149,33 @@ class ProductController extends Controller {
 
     public function delete( $id ) {
         //
-        $product = Product::find( $id );
-        if ( !$product ) {
-            $notification = 'No existe el producto a eliminar!!';
-        } else {
-            $result = $product->delete();
-            if ( !$result ) {
-                $notification = 'Hubo un  error al eliminar el producto';
+        $notification = '';
+        try {
+            $product = Product::find( $id );
+            if ( !$product ) {
+                $notification = 'No existe el producto a eliminar!!';
             } else {
-                $notification = 'el producto se eliminó correctamente!!';
-            }
+                $result = $product->delete();
+                if ( !$result ) {
+                    $notification = 'Hubo un  error al eliminar el producto';
+                } else {
+                    $notification = 'el producto se eliminó correctamente!!';
+                }
 
+            }
+        } catch  ( \Illuminate\Database\QueryException $e ) {
+            // Capturar errores relacionados con la base de datos
+            if ( $e->getCode() === '23000' ) {
+                // Código de error SQL para violación de integridad referencial
+                $notification = 'No se puede eliminar el producto porque está asociado a un surtidor.';
+            } else {
+                $notification = 'Ocurrió un error al intentar eliminar el producto. Por favor, inténtalo de nuevo.';
+            }
+        } catch ( \Exception $e ) {
+            // Capturar otros errores generales
+            $notification = 'Ocurrió un error inesperado. Por favor, inténtalo más tarde.';
         }
 
         return redirect( 'admin/products' )->with( compact( 'notification' ) );
-
     }
 }

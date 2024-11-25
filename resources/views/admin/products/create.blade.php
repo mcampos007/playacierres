@@ -35,7 +35,14 @@
                         <div class="col-sm-6">
                             <div class="form-group label-floating">
                                 <label class="control-label">Precio del Producto</label>
-                                <input type="text" class="form-control" name="price" value="{{ old('price') }}">
+                                {{-- <input type="text" class="form-control" name="price" value="{{ old('price') }}"> --}}
+
+                                <input type="text" class="form-control" name="price" value="{{ old('price') }}"
+                                    min="0" step="0.01" required
+                                    oninput="this.value = this.value < 0 ? '' : this.value"
+                                    placeholder="Ingrese el precio del producto">
+
+
                             </div>
                         </div>
                     </div>
