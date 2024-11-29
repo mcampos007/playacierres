@@ -103,14 +103,25 @@ class SurtidorController extends Controller {
             'producto.exists' => 'El producto seleccionado no es válido.',
             'tanque_id.exists' => 'El tanque seleccionado no es válido.',
         ] );
-        //
+
+        // Obtener el surtidor
         $surtidor = Surtidor::findOrFail( $id );
+
+        // Verificar si el tanque tiene un producto diferente al del surtidor
+        if ( $validatedData[ 'tanque_id' ] ) {
+            $tanque = Tanque::find( $validatedData[ 'tanque_id' ] );
+            if ( $tanque && $tanque->product_id !== $validatedData[ 'producto' ] ) {
+                return redirect()->back()->withErrors( [
+                    'tanque_id' => 'El producto asociado al tanque seleccionado no coincide con el producto del surtidor.',
+                ] )->withInput();
+            }
+        }
 
         // Actualizar los valores del surtidor
         $surtidor->name = $validatedData[ 'name' ];
         $surtidor->product_id = $validatedData[ 'producto' ];
         $surtidor->lectura_actual = $validatedData[ 'lectura_actual' ];
-        $surtidor->tanque_id = $validatedData[ 'tanque_id' ];
+        //  $surtidor->tanque_id = $validatedData[ 'tanque_id' ];
         $surtidor->save();
 
         // Redireccionar con un mensaje de éxito
