@@ -44,7 +44,7 @@
                         <strong>Error:!!</strong>{{ session('msj') }}
                     </div>
                 @endif
-
+                {{-- Surtidores asociados al tanque --}}
                 <div class="team">
 
                     <div class="row ">
@@ -86,7 +86,7 @@
                                         </td>
                                         <td class="td-actions text-center">
                                             <form method="post"
-                                                action="{{ route('tanques.surtidores.destroy', $tanque->id) }}">
+                                                action="{{ route('tanques.surtidores.destroy', ['id' => $surtidor->id]) }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
 
@@ -109,8 +109,47 @@
                         <a href="{{ route('tanques.index') }}" class="btn btn-primary btn-round"> Volver a Tanques</a>
                     </div>
                 </div>
+                {{-- Surtidores sin tanque asociaso --}}
+                <div class="team">
+                    <h3 class="title">Surtidores no asociados a ningún tanque</h3>
+                    <div class="row ">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th class="col-md-1 text-center">#</th>
+                                    <th class="col-md-3 text-center">Surtidor</th>
+                                    <th class="col-md-3 text-center">Producto</th>
+                                    <th class="col-md-3 text-center">Opciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($surtidoresSinTanque as $index => $surtidor)
+                                    <tr>
+                                        <td>{{ $surtidor->id }}</td>
+                                        <td>{{ $surtidor->name }}</td>
+                                        <td>{{ $surtidor->product->name }}</td>
+                                        <td class="td-actions text-center">
+                                            <!-- Botón para asociar al tanque actual -->
+                                            <form method="post"
+                                                action="{{ route('tanques.surtidores.add', ['tanque_id' => $tanque->id, 'surtidor_id' => $surtidor->id]) }}">
+                                                {{ csrf_field() }}
+                                                <button type="submit" rel="tooltip" title="Agregar al Tanque"
+                                                    class="btn btn-success btn-simple btn-xs">
+                                                    <i class="fa fa-plus"></i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
 
             </div>
+
+
         </div>
     </div>
 

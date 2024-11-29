@@ -90,6 +90,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->namespace('Admin')->group
 
      Route::get('/tanques/surtidores/{id}', [TanqueController::class, 'surtidores'])->name('tanques.surtidores');
      Route::delete('/tanques/surtidores/{id}', [TanqueController::class, 'quitardeltanque'])->name('tanques.surtidores.destroy');
+     Route::post('tanques/{tanque_id}/surtidores/add/{surtidor_id}', [TanqueController::class, 'addSurtidor'])->name('tanques.surtidores.add');
+
 
     //Route::resource('/user', UserController::class);
 /*
