@@ -63,7 +63,7 @@
                                         <td class="text-center">{{ $surtidor->lectura_actual }}</td>
 
                                         <td class="td-actions text-right">
-                                            <form method="post"
+                                            <form id="delete-form-{{ $surtidor->id }}" method="post"
                                                 action="{{ route('admin.surtidors.delete', ['id' => $surtidor->id]) }}">
                                                 {{ csrf_field() }}
                                                 {{ method_field('DELETE') }}
@@ -73,7 +73,8 @@
                                                     class="btn btn-success btn-simple btn-xs">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <button type="submit" rel="tooltip" title="Eliminar"
+                                                <button type="button" onclick="confirmDelete({{ $surtidor->id }})"
+                                                    rel="tooltip" title="Eliminar"
                                                     class="btn btn-danger btn-simple btn-xs">
                                                     <i class="fa fa-times"></i>
                                                 </button>
@@ -94,4 +95,22 @@
     </div>
 
     @include('includes.footer')
+    <script>
+        function confirmDelete(surtidorId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "¡No podrás revertir esta acción!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + surtidorId).submit();
+                }
+            });
+        }
+    </script>
 @endsection
