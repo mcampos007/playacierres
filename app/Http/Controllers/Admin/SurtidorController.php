@@ -95,10 +95,11 @@ class SurtidorController extends Controller {
         $validatedData = $request->validate( [
             'name' => 'required|string|max:255',
             'producto' => 'required|exists:products,id',
-            'lectura_actual' => 'required|numeric|min:0',
+            'lectura_actual' => 'required|numeric|min:0|max:999999.99',
             'tanque_id' => 'nullable|exists:tanques,id',
         ], [
             'lectura_actual.min' => 'La lectura actual debe ser un valor mayor o igual a 0.',
+            'lectura_actual.max' => 'La lectura actual debe ser un valor inferior a 1000000.',
             'producto.exists' => 'El producto seleccionado no es válido.',
             'tanque_id.exists' => 'El tanque seleccionado no es válido.',
         ] );

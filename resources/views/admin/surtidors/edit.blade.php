@@ -85,9 +85,9 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="lectura_actual">Lectura Actual:</label>
-                                        <input type="number" min="0" step="any" name="lectura_actual"
-                                            id="lectura_actual" class="form-control"
-                                            value="{{ $surtidor->lectura_actual }} ">
+                                        <input type="number" min="0" max="999999.99" step="any"
+                                            name="lectura_actual" id="lectura_actual" class="form-control"
+                                            value="{{ trim($surtidor->lectura_actual) }}">
                                     </div>
                                 </div>
                             </div>
