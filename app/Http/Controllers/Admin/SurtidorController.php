@@ -91,13 +91,28 @@ class SurtidorController extends Controller {
     */
 
     public function update( Request $request, $id ) {
+        // Validar los datos del formulario
+        $validatedData = $request->validate( [
+            'name' => 'required|string|max:255',
+            'producto' => 'required|exists:products,id',
+            'lectura_actual' => 'required|numeric|min:0',
+            'tanque_id' => 'nullable|exists:tanques,id',
+        ], [
+            'lectura_actual.min' => 'La lectura actual debe ser un valor mayor o igual a 0.',
+            'producto.exists' => 'El producto seleccionado no es válido.',
+            'tanque_id.exists' => 'El tanque seleccionado no es válido.',
+        ] );
         //
         $surtidor = Surtidor::findOrFail( $id );
-        $surtidor->name = $request->input( 'name' );
-        $surtidor->product_id = $request->input( 'producto' );
-        $surtidor->lectura_actual = $request->input( 'lectura_actual' );
-        $surtidor->tanque_id = $request->input( 'tanque_id' );
+
+        // Actualizar los valores del surtidor
+        $surtidor->name = $validatedData[ 'name' ];
+        $surtidor->product_id = $validatedData[ 'producto' ];
+        $surtidor->lectura_actual = $validatedData[ 'lectura_actual' ];
+        $surtidor->tanque_id = $validatedData[ 'tanque_id' ];
         $surtidor->save();
+
+        // Redireccionar con un mensaje de éxito
         return redirect()->route( 'admin.surtidors' ) ->with( 'success', 'Surtidor actualizado exitosamente.' );
         ;
     }

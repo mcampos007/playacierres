@@ -31,6 +31,16 @@
 
                     <div class="container">
                         <h1>Actualizar Surtidor</h1>
+                        {{-- Mostrar errores de validación --}}
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <form method="POST" action="{{ route('admin.surtidors.update', ['id' => $surtidor->id]) }}">
                             @csrf
                             @method('PUT')
@@ -75,7 +85,8 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label for="lectura_actual">Lectura Actual:</label>
-                                        <input type="text" name="lectura_actual" id="lectura_actual" class="form-control"
+                                        <input type="number" min="0" step="any" name="lectura_actual"
+                                            id="lectura_actual" class="form-control"
                                             value="{{ $surtidor->lectura_actual }} ">
                                     </div>
                                 </div>
