@@ -55,7 +55,8 @@
                                 <tbody>
                                     @foreach ($turnoDetails as $key => $Detail)
                                         <tr>
-                                            <input type="hidden" name="surtidor_id[]" value="{{ $key + 1 }}" />
+                                            <input type="hidden" name="surtidor_id[]"
+                                                value="{{ $Detail->surtidor->id }}" />
                                             <td class="text-center">{{ $key + 1 }}</td>
                                             <td class="text-center">{{ $Detail->surtidor->name }}</td>
                                             <td class="text-center">{{ $Detail->surtidor->product->name }}</td>

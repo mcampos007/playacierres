@@ -356,13 +356,18 @@ class TurnoController extends Controller
             $turnonuevo->save();
 
             //Se deberia registrar el detalle de aforadores y el actualizar las lecturas
+            $surtidorIds = $request->input('surtidor_id');
+
             foreach ($request->input('l_final') as $key=>$item)
             {
-                //dd($key);
+
                 $detalle = new TurnoDetail();
                 $detalle->turno_id = $turnonuevo->id;
-                $detalle->surtidor_id = $key+1;
-                $detalle->lectura_inicial = $this->lectura_actual_surtidor($key+1);
+
+                $detalle->surtidor_id =  $surtidorIds[$key];
+
+
+                $detalle->lectura_inicial = $this->lectura_actual_surtidor($detalle->surtidor_id);
                 $detalle->lectura_final = $item;
                 $arrprice = $request->input('price');
                 $detalle->price = $arrprice[$key];
@@ -373,18 +378,20 @@ class TurnoController extends Controller
             }
         }else   //el turno ya existe
         {
-            $lecturas = $request->input('l_final');
-            $surtidores = $request->input('surtidor_id');
-            $prices = $request->input('price');
-            //dd($prices);
+            $lecturas = $request->input('l_final');         // Son las lecturas de cada surtidor
+
+            $surtidores = $request->input('surtidor_id');   //array con los id de surdores
+
+            $prices = $request->input('price');             //Array con los precios
+
             foreach ($lecturas as $key=> $lectura )
             //foreach ($surtidors as $key=> $surtidor)
             {
                 // Registrar el detalle
                 $detalle = TurnoDetail::where('turno_id',$turnonuevo->id)->where('surtidor_id',  $surtidores[$key])->first();
-                //$detalle->turno_id = $turnonuevo->id;
-                //$detalle->surtidor_id = $surtidores[$key];
+
                 if (!$detalle->lectura_inicial){
+
                     $detalle->lectura_inicial = $this->lectura_actual_surtidor($surtidores[$key]);
                 }
 
@@ -397,9 +404,6 @@ class TurnoController extends Controller
                 }
 
                 $detalle->save();
-               // dd($detalle);
-                // Actualizar la lectura del surtidor
-              //  $this->actualizar_lectura_surtidor($detalle->surtidor_id, $detalle->lectura_final);
 
             }
         }

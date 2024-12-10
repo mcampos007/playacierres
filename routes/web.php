@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\User\TurnoController;
+use App\Http\Controllers\Admin\TurnoController as AdminTurnoController;;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SurtidorController;
 use App\Http\Controllers\Admin\UserController;
@@ -40,7 +41,7 @@ Route::middleware(['auth', 'user'])->prefix('user')->namespace('User')->group(fu
 	Route::post('/turno/cerrarturno', [TurnoController::class, 'confirmarcierreturno'])->name('cerrarturno');		//Confirmar cierre de turno
     Route::get('/turno/cierres/pdf/{id}', [TurnoController::class, 'cierreAforadoresPDF'])->name('formcierretopdf');   //Generar pdf
     Route::get('/turno/cierres/imprimir/{id}', [TurnoController::class, 'imprimircierre'])->name('imprimircierre');   //Generar pdf
-    Route::get('/turnoscheck', [TurnoController::class, 'turnocheck'])->name('admin.turnoscheck');   //Control de Cierres de Turnos
+      //Control de Cierres de Turnos
 
 });
 
@@ -69,6 +70,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->namespace('Admin')->group
 	//Route::post('/aforadores', [TurnoController::class, 'storeaforadores']); 					    //Registrar los aforadores
 	Route::get('/turno/edit/{id}', [TurnoController::class, 'editarturno'])->name('editarturno');		//Editar Turno
     Route::put('/turno/edit/{id}', [TurnoController::class, 'update'])->name('updateturno');          //Update turno
+    Route::get('/turnoscheck', [AdminTurnoController::class, 'turnocheck'])->name('admin.turnoscheck');
 	//Route::get('/turno/cerrarturno/{id}', [TurnoController::class, 'cerrarturno']);			//Llamada al form para Cerrar Turno
 	//Route::post('/turno/cerrarturno', [TurnoController::class, 'confirmarcierreturno']);		//Confirmar cierre de turno
     Route::post('/verificaraforador', [TurnoController::class, 'verificaraforador'])->name('verificaraforador');   //Control de Cierres de Turnos

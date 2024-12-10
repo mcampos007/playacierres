@@ -78,7 +78,6 @@ class TurnoController extends Controller {
     public function turnocheck() {
        // $id = 4;
         $turno =  Turno::latest( 'id' )->first();
-        dd($turno);
 
         return view( 'admin.turnos.verificar', compact( 'turno' ) );
     }
