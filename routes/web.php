@@ -76,8 +76,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->namespace('Admin')->group
     Route::post('/verificaraforador', [TurnoController::class, 'verificaraforador'])->name('verificaraforador');   //Control de Cierres de Turnos
     Route::post('/actualizaraforador', [TurnoController::class, 'actualizaraforador'])->name('actualizaraforador');   //Control de Cierres de Turnos
 
+    // Users
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
     Route::get('/user/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/user/create', [UserController::class,'store'])->name('admin.user.store');
     Route::delete('/user/destroy/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
 

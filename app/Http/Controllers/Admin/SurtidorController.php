@@ -137,16 +137,28 @@ class SurtidorController extends Controller {
     */
 
     public function delete( $id ) {
-        //
-        $surtidor = Surtidor::findOrFail( $id );
-        if ( !$surtidor->id ) {
-            $notification = 'NO se pudo eliminar el surtidor!';
-        } else {
-            $surtidor->delete();
-            $notification = 'El surtidor se ha eliminado';
-        }
+        try {
+            // Buscar el surtidor
+            $surtidor = Surtidor::findOrFail( $id );
 
-        return redirect()->route( 'admin.surtidors' )->with( compact( 'notification' ) );
+            // Intentar eliminar
+            $surtidor->delete();
+
+            // Notificación de éxito
+            return redirect()->route( 'admin.surtidors' )->with( 'notification', 'El surtidor se ha eliminado correctamente.' );
+        } catch ( \Illuminate\Database\QueryException $e ) {
+            // Capturar error de restricción de relaciones
+            if ( $e->getCode() === '23000' ) {
+                // Código de violación de clave foránea
+                return redirect()->route( 'admin.surtidors' )->with( 'msj', 'No se pudo eliminar el surtidor porque está relacionado con otros registros.' );
+            }
+
+            // Otro error de base de datos
+            return redirect()->route( 'admin.surtidors' )->with( 'msj', 'Ocurrió un error en la base de datos.' );
+        } catch ( \Exception $e ) {
+            // Capturar cualquier otro error
+            return redirect()->route( 'admin.surtidors' )->with( 'msj', 'Ocurrió un error inesperado: ' . $e->getMessage() );
+        }
     }
 
     public function changetanque( $id ) {

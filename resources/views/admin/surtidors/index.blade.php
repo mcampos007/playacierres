@@ -23,9 +23,9 @@
                 </div>
 
                 <div class="team">
-                    @if (session()->has('msj'))
+                    @if (session('msj'))
                         <div class="alert alert-danger" role="alert">
-                            <strong>Error:!!</strong>{{ session('msj') }}
+                            <strong>Error: </strong> {{ session('msj') }}
                         </div>
                     @endif
                     @if (session()->has('success'))

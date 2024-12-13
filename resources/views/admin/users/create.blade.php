@@ -33,7 +33,8 @@
                         <span>{{ session('success') }}</span>
                     </div>
                 @endif
-                <form method="post" action="{{ url('admin/user') }}" enctype="multipart/form-data" class="text-center">
+                <form method="post" action="{{ route('admin.user.store') }}" enctype="multipart/form-data"
+                    class="text-center">
                     {{ csrf_field() }}
 
                     <div class="row">
