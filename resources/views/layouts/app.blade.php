@@ -43,7 +43,12 @@
                 <div class="tab-pane active" id="studio">
                     <div class="row">
                         <div class="col-md-6">
-                            <a class="navbar-brand" href="{{ url('/home') }}">{{ config('app.name') }} </a>
+                            {{-- <a class="navbar-brand" href="{{ url('/home') }}">{{ config('app.name') }} </a> --}}
+                            <a class="navbar-brand" href="{{ route('home') }}">
+                                <img src="{{ asset('img/logo_brand.jpeg') }}" alt="{{ config('app.name') }}"
+                                    class="img-circle img-logo-responsive">
+                            </a>
+
                             <!--<a href="{{ url('/') }}">
                             <img src="{{ asset('img/logo2.jpeg') }}" alt="" class="float-right img-raised img-circle img-fluid"  width="150" height="150">
                             </a> -->

@@ -83,6 +83,7 @@ class TurnoController extends Controller {
     }
 
     public function verificaraforador( Request $request ) {
+
         $turno = $request->input( 'turno' );
         $fecha = $request->input( 'fecha' );
         $surtidorId = $request->input('surtidor_id');
@@ -98,8 +99,16 @@ class TurnoController extends Controller {
         ->with('turnoDetails') // Cargar todos los detalles de turno sin filtrar por surtidor_id
         ->first();
 
+        if (!$turnoAnterior){
+            $notification = "No hay un turno Anterior, No es posible verificar turnos";
+
+            return redirect()->route('admin.turnoscheck')->with(compact('notification'));
+
+        }
+
         // Crear una colección para los datos a modificar
         $datosModificar = new Collection();
+
 
          // Recorrer los detalles del turno actual
          foreach ($turnoActual->turnoDetails as $detalleActual) {

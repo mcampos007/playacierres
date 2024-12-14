@@ -73,8 +73,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->namespace('Admin')->group
     Route::get('/turnoscheck', [AdminTurnoController::class, 'turnocheck'])->name('admin.turnoscheck');
 	//Route::get('/turno/cerrarturno/{id}', [TurnoController::class, 'cerrarturno']);			//Llamada al form para Cerrar Turno
 	//Route::post('/turno/cerrarturno', [TurnoController::class, 'confirmarcierreturno']);		//Confirmar cierre de turno
-    Route::post('/verificaraforador', [TurnoController::class, 'verificaraforador'])->name('verificaraforador');   //Control de Cierres de Turnos
-    Route::post('/actualizaraforador', [TurnoController::class, 'actualizaraforador'])->name('actualizaraforador');   //Control de Cierres de Turnos
+    Route::post('/verificaraforador', [AdminTurnoController::class, 'verificaraforador'])->name('verificaraforador');   //Control de Cierres de Turnos
+    Route::post('/actualizaraforador', [AdminTurnoController::class, 'actualizaraforador'])->name('actualizaraforador');   //Control de Cierres de Turnos
 
     // Users
     Route::get('/user', [UserController::class, 'index'])->name('user.index');
