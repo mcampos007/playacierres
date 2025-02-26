@@ -31,21 +31,23 @@
                         <div class="col-sm-4">
                             <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
                             <input type="text" class="form-control" id="nombre" name="nombre"
-                                value={{ $tanque->nombre }}>
+                                value="{{ $tanque->nombre }}" />
                         </div>
 
                         <div class="col-sm-4">
                             <label for="product_id" class="col-sm-2 col-form-label">Producto</label>
                             <select class="form-control" aria-label="Default select example" name="product_id">
-                                <option selected>Seleccione un producto</option>
+                                <option value="" {{ is_null($tanque->product) ? 'selected' : '' }}>Seleccione un
+                                    producto</option>
                                 @foreach ($products as $product)
                                     <option value="{{ $product->id }}"
-                                        {{ $tanque->product->id === $product->id ? 'selected' : '' }}>
+                                        {{ $tanque->product?->id === $product->id ? 'selected' : '' }}>
                                         {{ $product->name }}
                                     </option>
                                 @endforeach
                             </select>
                         </div>
+
                         <div class="row mb-3">
                             <div class="col-sm-4">
                                 <label for="capacidad" class="col-sm-2 col-form-label">capacidad (Lts.)</label>

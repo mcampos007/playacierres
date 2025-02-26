@@ -60,7 +60,7 @@
                                         <td class="text-center">{{ $tanque->id }}</td>
                                         <td class="text-center">{{ $tanque->nombre }}</td>
                                         <td class="text-center">{{ $tanque->capacidad }}</td>
-                                        <td class="text-center">{{ $tanque->product->name }}</td>
+                                        <td class="text-center">{{ $tanque->product?->name ?? 'Sin producto' }}</td>
                                         <td class="td-actions text-right">
                                             <form method="post" action="{{ route('tanques.destroy', $tanque->id) }}">
                                                 {{ csrf_field() }}

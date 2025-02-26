@@ -12,7 +12,7 @@
     <div class="main main-raised">
         <div class="container">
 
-            <div class="section ">
+            <div class="section">
                 <h2 class="title text-center">Registrar Nuevo Tanque</h2>
                 @if ($errors->any())
                     <div class="alert alert-danger">
@@ -27,34 +27,38 @@
                     {{ csrf_field() }}
 
                     <div class="row mb-3">
-
                         <div class="col-sm-4">
                             <label for="nombre" class="col-sm-2 col-form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre">
+                            <input type="text" class="form-control" id="nombre" name="nombre"
+                                value="{{ old('nombre') }}">
                         </div>
 
                         <div class="col-sm-4">
                             <label for="product_id" class="col-sm-2 col-form-label">Producto</label>
                             <select class="form-control" aria-label="Default select example" name="product_id">
-                                <option selected>Seleccione un producto</option>
+                                <option value="" disabled {{ old('product_id') ? '' : 'selected' }}>
+                                    Seleccione un producto
+                                </option>
                                 @foreach ($products as $product)
-                                    <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    <option value="{{ $product->id }}"
+                                        {{ old('product_id') == $product->id ? 'selected' : '' }}>
+                                        {{ $product->name }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="row mb-3">
                             <div class="col-sm-4">
-                                <label for="capacidad" class="col-sm-2 col-form-label">capacidad (Lts.)</label>
-                                <input type="text" class="form-control" id="capacidad" name="capacidad">
+                                <label for="capacidad" class="col-sm-2 col-form-label">Capacidad (Lts.)</label>
+                                <input type="text" class="form-control" id="capacidad" name="capacidad"
+                                    value="{{ old('capacidad') }}">
                             </div>
-
                         </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Registrar Tanque</button>
                     <a href=" {{ route('tanques.index') }}" class="btn btn-default">Cancelar</a>
                 </form>
-
             </div>
 
         </div>

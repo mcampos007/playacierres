@@ -22,14 +22,17 @@ class TanqueController extends Controller {
     }
 
     public function store( Request $request ) {
-        //
+        // Validaciones
         $request->validate( [
             'nombre' => 'required|max:255',
             'capacidad' => 'required|numeric',
+            'product_id' => 'required|exists:products,id',
         ] );
 
+        // Crear el tanque
         Tanque::create( $request->all() );
 
+        // Redireccionar con mensaje de éxito
         return redirect()->route( 'tanques.index' )
         ->with( 'success', 'Tanque creado exitosamente.' );
     }
@@ -41,6 +44,7 @@ class TanqueController extends Controller {
 
     public function edit( Tanque $tanque ) {
         //
+
         $products = Product::all();
         return view( 'admin.tanques.edit', compact( 'tanque', 'products' ) );
 

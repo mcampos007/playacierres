@@ -22,11 +22,11 @@ class ProductsTableSeeder extends Seeder {
                 'price' => 1375,
             ],
             [
-                'name' => 'X10',
+                'name' => 'AXION DIESEL X10',
                 'price' => 1269,
             ],
             [
-                'name' => 'QUANTIUM DIESEL',
+                'name' => 'QUANTIUM DIESEL X10',
                 'price' => 1407,
             ],
             // Agrega más registros si lo deseas

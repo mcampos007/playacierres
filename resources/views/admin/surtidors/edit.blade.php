@@ -75,7 +75,8 @@
                                         @foreach ($tanques as $tanque)
                                             <option value="{{ $tanque->id }}"
                                                 {{ $surtidor->tanque_id === $tanque->id ? 'selected' : '' }}>
-                                                {{ $tanque->nombre . ' - ' . $tanque->product->name }}
+                                                {{ $tanque->nombre . ' - ' . ($tanque->product ? $tanque->product->name : 'Sin producto asignado') }}
+
                                             </option>
                                         @endforeach
                                     </select>

@@ -28,7 +28,7 @@
                     Laravel v<?php echo app()->version(); ?>
                 </div>
                 <div class="copyright">
-                    &copy; 2024, made with <i class="fa fa-heart text-danger"></i> by Infocam
+                    &copy; 2025, made with <i class="fa fa-heart text-danger"></i> by Infocam
                 </div>
             </div>
         </div>

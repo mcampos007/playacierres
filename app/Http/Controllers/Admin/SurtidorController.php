@@ -92,6 +92,7 @@ class SurtidorController extends Controller {
 
     public function update( Request $request, $id ) {
         // Validar los datos del formulario
+        dd( $id );
         $validatedData = $request->validate( [
             'name' => 'required|string|max:255',
             'producto' => 'required|exists:products,id',
