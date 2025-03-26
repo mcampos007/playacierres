@@ -62,7 +62,7 @@
 </head>
 
 <body>
-    <h1>PETRASOL SRL</h1>
+    <h1>{{ $empresa }}L</h1>
     <h2>Cierre de Turno:{{ $turno->turno }} Fecha: {{ $turno->fecha }}</h2>
     <table>
         <thead>

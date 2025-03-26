@@ -332,7 +332,6 @@ class TurnoController extends Controller
 
     }
 
-
     public function actualizar_lectura_surtidor($id, $lectura){
 
         $surtidor = Surtidor::find($id);
@@ -454,6 +453,7 @@ class TurnoController extends Controller
         return $litros;
 
     }
+
     public function total_por_tanques($detalles){
 
         $tanques = Tanque::all();
@@ -470,7 +470,7 @@ class TurnoController extends Controller
 
     public function cierreAforadoresPDF($id)
     {
-
+        $empresa = "LAS LOMAS SRL";
         $detalles = turnoDetail::where('turno_id', $id)->get();         //   Data::all(); // Reemplaza con la consulta que necesites
         $turno = turno::find($id);                                      //   Data::all(); // Reemplaza con la consulta que necesites
         $totallitros = $this->total_litros($id);                        //  Total de Listros
@@ -479,7 +479,7 @@ class TurnoController extends Controller
         // Obtener la fecha y hora actual
         $currentDateTime = Carbon::now()->format('d-m-Y H:i:s');
 
-        $pdf = PDF::loadView('user.pdfCierres', compact('turno', 'detalles', 'totallitros', 'importetotal', 'total_tanques', 'currentDateTime'));
+        $pdf = PDF::loadView('user.pdfCierres', compact('turno', 'detalles', 'totallitros', 'importetotal', 'total_tanques', 'currentDateTime', 'empresa'));
 
         // Guarda el PDF temporalmente en el servidor
         $rptname = 'app/public/cierres/turno_'.$id.'.pdf';
