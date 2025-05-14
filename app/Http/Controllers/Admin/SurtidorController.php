@@ -92,7 +92,7 @@ class SurtidorController extends Controller {
 
     public function update( Request $request, $id ) {
         // Validar los datos del formulario
-        dd( $id );
+
         $validatedData = $request->validate( [
             'name' => 'required|string|max:255',
             'producto' => 'required|exists:products,id',
@@ -106,12 +106,14 @@ class SurtidorController extends Controller {
         ] );
 
         // Obtener el surtidor
+
         $surtidor = Surtidor::findOrFail( $id );
 
         // Verificar si el tanque tiene un producto diferente al del surtidor
         if ( $validatedData[ 'tanque_id' ] ) {
             $tanque = Tanque::find( $validatedData[ 'tanque_id' ] );
-            if ( $tanque && $tanque->product_id !== $validatedData[ 'producto' ] ) {
+
+            if ( $tanque &&  $tanque->product_id  !== intval( $validatedData[ 'producto' ] ) ) {
                 return redirect()->back()->withErrors( [
                     'tanque_id' => 'El producto asociado al tanque seleccionado no coincide con el producto del surtidor.',
                 ] )->withInput();
