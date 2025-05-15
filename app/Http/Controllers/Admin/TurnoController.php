@@ -76,49 +76,60 @@ class TurnoController extends Controller {
     }
 
     public function turnocheck() {
-       // $id = 4;
+        // $id = 4;
         $turno =  Turno::latest( 'id' )->first();
+        $surtidores = Surtidor::all();
+        if ( !$turno ) {
+            $notification = 'No hay turnos para verificar';
+            return redirect()->route( 'home' )->with( compact( 'notification' ) );
+        }
 
-        return view( 'admin.turnos.verificar', compact( 'turno' ) );
+        return view( 'admin.turnos.verificar', compact( 'turno', 'surtidores' ) );
     }
 
     public function verificaraforador( Request $request ) {
 
         $turno = $request->input( 'turno' );
         $fecha = $request->input( 'fecha' );
-        $surtidorId = $request->input('surtidor_id');
+        $surtidorId = $request->input( 'surtidor_id' );
 
-        $turnoActual = Turno::where('turno', $turno)
-        ->where('fecha', $fecha)
-        ->with('turnoDetails') // Cargar todos los detalles de turno sin filtrar por surtidor_id
+        $turnoActual = Turno::where( 'turno', $turno )
+        ->where( 'fecha', $fecha )
+        ->with( 'turnoDetails' ) // Cargar todos los detalles de turno sin filtrar por surtidor_id
         ->first();
 
-        $id =$turnoActual->id;
+        if ( !$turnoActual ) {
+            $notification = 'No hay un turno Actual, No es posible verificar turnos';
 
-        $turnoAnterior = Turno::where('id', $id-1)
-        ->with('turnoDetails') // Cargar todos los detalles de turno sin filtrar por surtidor_id
+            return to_route( 'admin.turnoscheck' )->with( compact( 'notification' ) );
+
+        }
+
+        $id = $turnoActual->id;
+
+        $turnoAnterior = Turno::where( 'id', $id-1 )
+        ->with( 'turnoDetails' ) // Cargar todos los detalles de turno sin filtrar por surtidor_id
         ->first();
 
-        if (!$turnoAnterior){
-            $notification = "No hay un turno Anterior, No es posible verificar turnos";
+        if ( !$turnoAnterior ) {
+            $notification = 'No hay un turno Anterior, No es posible verificar turnos';
 
-            return redirect()->route('admin.turnoscheck')->with(compact('notification'));
+            return to_route( 'admin.turnoscheck' )->with( compact( 'notification' ) );
 
         }
 
         // Crear una colección para los datos a modificar
         $datosModificar = new Collection();
 
-
-         // Recorrer los detalles del turno actual
-         foreach ($turnoActual->turnoDetails as $detalleActual) {
+        // Recorrer los detalles del turno actual
+        foreach ( $turnoActual->turnoDetails as $detalleActual ) {
             // Buscar el detalle correspondiente en el turno anterior
-            $detalleAnterior = $turnoAnterior->turnoDetails->firstWhere('surtidor_id', $detalleActual->surtidor_id);
+            $detalleAnterior = $turnoAnterior->turnoDetails->firstWhere( 'surtidor_id', $detalleActual->surtidor_id );
 
             // Comparar lectura_inicial del turno actual con lectura_final del turno anterior
-            if ($detalleAnterior && $detalleActual->lectura_inicial != $detalleAnterior->lectura_final) {
+            if ( $detalleAnterior && $detalleActual->lectura_inicial != $detalleAnterior->lectura_final ) {
                 // Agregar los datos a modificar a la colección
-                $datosModificar->push([
+                $datosModificar->push( [
                     'id' => $detalleActual->id,
                     'turno_id' => $turnoActual->id,
                     'turno' => $turnoActual->turno,
@@ -126,95 +137,41 @@ class TurnoController extends Controller {
                     'surtidor_id' => $detalleActual->surtidor_id,
                     'lectura_amodificar' => $detalleActual->lectura_inicial,
                     'nueva_lectura' => $detalleAnterior->lectura_final,
-                ]);
+                ] );
             }
         }
 
-    //      // Convertir cada elemento a un objeto
-    // $datosModificar = array_map(function ($item) {
-    //     return (object) $item;
-    // }, $datosModificar);
-
-
-
-
-        // Realizar la consulta al modelo Turno y cargar la relación turnoDetails
-        // $turnoActual = Turno::where('turno', $turno)
-        // ->where('fecha', $fecha)
-        // ->whereHas('turnoDetails', function ($query) use ($surtidorId) {
-        //     $query->where('surtidor_id', $surtidorId);
-        // })
-        // ->with(['turnoDetails' => function ($query) use ($surtidorId) {
-        //     $query->where('surtidor_id', $surtidorId);
-        // }])
-        // ->first();
-
-        //dd($turnoActual);
-
-
-
-        // Anterior
-        // $turnoAnterior = Turno::where('id',$id)
-        // ->whereHas('turnoDetails', function ($query) use ($surtidorId) {
-        //     $query->where('surtidor_id', $surtidorId);
-        // })
-        // ->with(['turnoDetails' => function ($query) use ($surtidorId) {
-        //     $query->where('surtidor_id', $surtidorId);
-        // }])
-        // ->first();
-
-        //
-        //dd($turnoActual->turnoDetails()->first());
-       // dd($datosModificar);
-        return view('admin.turnos.turnoaverificar', compact('datosModificar'));
+        return view( 'admin.turnos.turnoaverificar', compact( 'datosModificar' ) );
 
     }
 
-    public function actualizaraforador(Request $request){
+    public function actualizaraforador( Request $request ) {
 
         // Recibir los datos del formulario
-        $datos = $request->input('datos');
-        $seleccionar = $request->input('seleccionar');
+        $datos = $request->input( 'datos' );
+        $seleccionar = $request->input( 'seleccionar' );
 
-        // dd($datos);
+        // dd( $datos );
 
         // Iterar sobre los datos recibidos
-        foreach ($datos as $index => $dato) {
+        foreach ( $datos as $index => $dato ) {
             // Verificar si este índice está seleccionado para la actualización
-            if (isset($seleccionar[$index])) {
+            if ( isset( $seleccionar[ $index ] ) ) {
                 // Obtener los valores del array
-                $id = $dato['id'];
-                $surtidor_id = $dato['surtidor_id'];
-                $nueva_lectura = $dato['nueva_lectura'];
+                $id = $dato[ 'id' ];
+                $surtidor_id = $dato[ 'surtidor_id' ];
+                $nueva_lectura = $dato[ 'nueva_lectura' ];
 
                 // Realizar la actualización en la base de datos
-                TurnoDetail::where('id', $id)
-                    ->where('surtidor_id', $surtidor_id)
-                    ->update(['lectura_inicial' => $nueva_lectura]);
+                TurnoDetail::where( 'id', $id )
+                ->where( 'surtidor_id', $surtidor_id )
+                ->update( [ 'lectura_inicial' => $nueva_lectura ] );
             }
         }
-        // Redireccionar con un mensaje de éxito
-        // return redirect()->route('admin.turnoscheck')->with('success', 'Lecturas actualizadas correctamente.');
 
-        // dd($request);
+        $success = 'Lecturas actualizadas correctamente.';
 
-        // $id = $request->input('id');
-        // $surtidor_id = $request->input("surtidor_id");
-        // $lectura_propuesta = $request->input("lecturapropuesta");
-
-        // $turnoDetail = TurnoDetail::where('turno_id', $id)
-        //                           ->where('surtidor_id', $surtidor_id)
-        //                           ->first();
-        // if ($turnoDetail) {
-        //     // Actualizar el campo lectura_inicial
-        //     $turnoDetail->lectura_inicial =$lectura_propuesta;
-        //     $turnoDetail->save();
-        // }
-        $notification = "Lecturas actualizadas correctamente.";
-
-
-
-        return redirect('home')->with(compact('notification'));
+        return redirect( 'home' )->with( compact( 'success' ) );
 
     }
 }

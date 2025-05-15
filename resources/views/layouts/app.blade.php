@@ -19,9 +19,7 @@
 
     <!-- CSS Files -->
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href=" {{ asset('css/material-kit.css') }}" rel="stylesheet" />
-
-    <!-- Sweetalert2 -->
+    <link href=" {{ asset('css/material-kit.css') }}" rel="stylesheet" <!-- Sweetalert2 -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
     @yield('styles')
@@ -91,23 +89,14 @@
                     </li> -->
                 </ul>
             </div>
-
         </div>
-
     </nav>
-
-
-
     <div class="wrapper">
         @yield('content')
-
-
     </div>
     <!-- <div class="team-player">
     <img src="{{ asset('img/logo1.jpg') }}" alt="Thumbnail Image" class="img-raised img-circle">
-
 </div> -->
-
 </body>
 <!--   Core JS Files   -->
 <script src=" {{ asset('js/jquery.min.js') }}" type="text/javascript"></script>

@@ -39,6 +39,7 @@
 
     <div class="main main-raised content-background">
         <div class="container">
+
             <div class="profile-tabs">
 
 
@@ -84,6 +85,20 @@
                                     <strong>{{ $notification }}</strong>
                                 </div>
                             @endif
+                        @endif
+                        @if ($notification = Session::get('notification'))
+                            <div class="alert alert-danger">
+                                <ul>
+                                    <li>{{ $notification }}</li>
+                                </ul>
+                            </div>
+                        @endif
+                        @if ($success = Session::get('success'))
+                            <div class="alert alert-success">
+                                <ul>
+                                    <li>{{ $success }}</li>
+                                </ul>
+                            </div>
                         @endif
                         <div class="tab-pane active" id="dashboard">
                             <hr>
@@ -170,7 +185,7 @@
                             @endif
                         </div>
                         <!-- Panel de Turnos Cerrados -->
-                        {{ $turnoscerrados }}
+
                         <div class="tab-pane text-center" id="remitos">
                             <hr>
                             <table class="table">
@@ -209,11 +224,11 @@
                                     @endforeach
                                 </tbody>
                             </table>
-                            <div class="text-center">
+                            <div class="pagination pagination-primary">
                                 {{ $turnoscerrados->links() }}
                             </div>
-
                         </div>
+
                     </div>
 
                 </div>
@@ -226,6 +241,17 @@
 @section('scripts')
     <script>
         $(document).ready(function() {
+            // Restaurar el tab activo desde localStorage
+            const lastTab = localStorage.getItem('activeTab');
+            if (lastTab) {
+                $('.nav-pills a[href="' + lastTab + '"]').tab('show');
+            }
+
+            // Guardar el tab activo cuando se hace clic
+            $('.nav-pills a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
+                const activeTab = $(e.target).attr('href');
+                localStorage.setItem('activeTab', activeTab);
+            });
             $('.open-pdf').on('click', function() {
                 var turnoId = $(this).data('id'); // Obtener el ID del turno
                 var url = '/user/turno/cierres/pdf/' + turnoId;
